@@ -1,6 +1,22 @@
 version: '3'
 services: 
+  db:
+    image: postgres:11.6
+    container_name: task_db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=default
+      - TZ=Asia/Tokyo
+    volumes:
+      - dev-vol:/var/lib/postgres/data
+      - ../.data/task_db:/var/lib/postgres/data:cached
+      - ./task_db:/docker-entrypoint-initdb.d:cached
+
   api:
+    container_name: task_api
     build:
       context: .
       dockerfile: ./api/Dockerfile
@@ -11,3 +27,10 @@ services:
       - 8000:8000
     environment:
       - WATCHFILES_FORCE_POLLING=true
+
+volumes: 
+  dev-vol:
+  api_env: 
+    driver: local
+  db_data:
+    driver: local
