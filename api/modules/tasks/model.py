@@ -1,13 +1,13 @@
-# from sqlalchemy import Column, Integer, String
-# from sqlalchemy.orm import relationship
-# from api.db import Base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
+from api.db import Base
 
 
-# class Task(Base):
-#     __tablename__ = "task"
-#     id = Column(Integer, primary_key=True)
-#     title = Column(String)
-#     done = relationship("Done", back_populates="task", cascade="delete")
+class Task(Base):
+    __tablename__ = "task"
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    done = relationship("Done", back_populates="task", cascade="delete")
 
 # class Done(Base):
 #     __tablename__ = "done"
