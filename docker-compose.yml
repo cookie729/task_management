@@ -1,5 +1,5 @@
-version: '3'
-services: 
+version: "3"
+services:
   db:
     image: postgres:11.6
     container_name: task_db
@@ -21,16 +21,33 @@ services:
       context: .
       dockerfile: ./api/Dockerfile
     volumes:
-    - .dockervenv:/src/.venv
-    - .:/src
+      - .dockervenv:/src/.venv
+      - .:/src
     ports:
       - 8000:8000
     environment:
       - WATCHFILES_FORCE_POLLING=true
 
-volumes: 
+  web:
+    container_name: task_web
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile
+    user: 1000:1000
+    tty: true
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./web/task_vue:/app # package.json のある場所
+      - dev-vol:/web/task_vue
+    ports:
+      - "3000:3000"
+
+volumes:
   dev-vol:
-  api_env: 
+  api_env:
+    driver: local
+  web_env:
     driver: local
   db_data:
     driver: local
