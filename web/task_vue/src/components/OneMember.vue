@@ -1,43 +1,41 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed, inject } from "vue";
+import type { Member } from "./interface";
 
 interface Props {
   id: number;
-  name: string;
-  email: string;
-  points: number;
-  note?: string;
 }
 
 const props = defineProps<Props>();
-const localPoints = ref(props.points);
+const memberList = inject("memberList") as Map<number, Member>;
+const member = computed((): Member => {
+  return memberList.get(props.id) as Member;
+});
+
 const localNote = computed((): string => {
-  let localNote = props.note;
+  let localNote = member.value.note;
   if (localNote == undefined) {
     localNote = "--";
   }
   return localNote;
 });
-
-const pointUp = (): void => {
-  localPoints.value++;
-};
 </script>
 
 <template>
   <section class="box">
-    <h4>{{ name }}さんの情報</h4>
+    <h4>{{ member.name }}さんの情報</h4>
     <dl>
       <dt>ID</dt>
       <dd>{{ id }}</dd>
       <dt>メールアドレス</dt>
-      <dd>{{ email }}</dd>
+      <dd>{{ member.email }}</dd>
       <dt>保有ポイント</dt>
-      <dd>{{ localPoints }}</dd>
+      <dd>
+        <input type="number" v-model.number="member.points" />
+      </dd>
       <dt>備考</dt>
       <dd>{{ localNote }}</dd>
     </dl>
-    <button v-on:click="pointUp">ポイント加算</button>
   </section>
 </template>
 
