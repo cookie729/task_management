@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from "vue";
 import Input from "./components/DynamicInput.vue";
 import Radio from "./components/DynamicRadio.vue";
@@ -27,7 +27,33 @@ const switchComp = (): void => {
     <component v-bind:is="currentComp" />
   </KeepAlive>
   <button v-on:click="switchComp">切り替え</button>
+</template> -->
+
+<script setup lang="ts">
+import "uno.css";
+const test = () => {
+  console.log("1111");
+};
+</script>
+
+<template lang="pug">
+div.bg-black
+  button(@click="test()") テスト
+  p.bg-black こんにちは 
+  p.text-blue こんにち
+  p.text-red こんにち
+  p.bg-red.text-white ｋｋｋｋｋ
+    //- router-link(:to="{name:'taskadd'}").taskAddbox  ＋タスクを追加
 </template>
+<!-- <template>
+  <div>
+    <button @click="test()" テスト>
+      <p class="bg-black">こんにちは</p>
+      <p class="text-blue">こんにちは</p>
+      <p class="bg-bink">こんにちは</p>
+    </button>
+  </div>
+</template> -->
 
 <style>
 section {
